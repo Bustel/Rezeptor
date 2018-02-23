@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="recipe_db" uuid="a19822cb-a278-4bcb-ba39-d51a11f82e3d">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/recipe_db</jdbc-url>
+      <driver-properties>
+        <property name="enable_load_extension" value="true" />
+        <property name="foreign_keys" value="true" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>

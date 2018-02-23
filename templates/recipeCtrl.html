@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>View Recipe</title>
+
+    <!-- Custom CSS -->
+
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<script src="/static/recipeCtrl.js"></script>
+
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Rezeptor</a>
+</nav>
+
+
+<div ng-controller="RecipeController as c" ng-init="c.get_recipe( {{ recipe_id }} )">
+
+    <div class="d-flex flex-row align-items-center">
+        <div class="p-2"><h2 ng-hide="c.edit">{{ '{{c.recipe.name}}' }}</div>
+        <div class="p-2"><button type="button" class="btn btn-outline-primary btn-sm" ng-hide="c.edit" ng-click="c.edit = true">Edit</button></div>
+        <div class="p-2"><button type="button" class="btn btn-outline-danger btn-sm" ng-hide="c.edit" ng-click="c.deleteRecipe()">Delete</button></div>
+    </div>
+
+    <div class="d-flex flex-column" ng-show="c.edit">
+        <div class="p-2">
+            <form >
+            <div class="form-group">
+                <h3><label for="recipeName">Recipe Name:</label></h3>
+                <input id="recipeName" type="text" placeholder="e.g. 'Mac & Cheese'" class="form-control" ng-model="c.NameText">
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="d-flex flex-column align-items-start">
+        <div class="p-2">
+            <img ng-src="/{{  '{{c.recipe.image}}' }}" id="recipePicture" style="max-width: 300px">
+        </div>
+        <div class="p-2">
+            <form ng-show="c.edit">
+                <div class="input-group justify-items-center">
+                    <h4><label for="pictureSelector">Change Image:</label></h4>
+                    <input type="file" id="pictureSelector" custom-on-change="previewImage">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="d-flex flex-column">
+        <div class="p-2"><h3>Ingredients:</h3></div>
+        <div class="p-2">
+            <form ng-submit="c.addIngredient()">
+            <ul class="list-group" >
+                <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="ingr in c.recipe.ingredients" >
+                    <span>{{'{{ ingr.quantity + " " + ingr.unit + " " + ingr.name}}'}}</span>
+                    <button class="btn btn-outline-danger" ng-show="c.edit" ng-click="c.recipe.ingredients.splice($index,1);">Delete</button>
+                </li>
+
+            </ul>
+            <div class="input-group" ng-show="c.edit">
+                <input type="text" ng-model="c.ingrAmount" class="form-control"
+                       placeholder="Amount (e.g. '100')">
+                <input type="text" ng-model="c.ingrUnit" class="form-control"
+                       placeholder="Unit (e.g. 'g' or 'small')">
+                <input type="text" ng-model="c.ingrName" class="form-control"
+                       placeholder="Ingredient">
+                <div class="input-group-append">
+                    <input class="btn btn-primary"  type="submit" value="add">
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column">
+    <div class="p-2"><h3>Steps: </h3></div>
+
+    <div class="p-2">
+        <form ng-submit="c.addStep()">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="s in c.recipe.steps" >
+                <span>{{'{{ "Step " + s.nr + ": " + s.description }}'}}</span>
+                <button class="btn btn-outline-danger" ng-show="c.edit" ng-click="c.removeStep($index)">Delete</button>
+            </li>
+        </ul>
+                <div class="input-group" ng-show="c.edit">
+                <textarea ng-model="c.stepText" class="form-control"
+                          placeholder="Add new step here"></textarea>
+                <div class="input-group-append">
+                    <input class="btn btn-primary" type="submit" value="add">
+                </div>
+                </div>
+
+        </form>
+
+    </div>
+    <form ng-show="c.edit">
+    <div class="d-flex flex-row">
+
+        <div class="p-2">
+            <input class="btn btn-danger"  type="button" value="Abort" ng-click="c.abortEdit()">
+        </div>
+        <div class="p-2">
+            <input class="btn btn-success" type="button" value="Save" ng-click="c.saveRecipe()">
+        </div>
+    </div>
+    </form>
+    </div>
+</div>
+
+</body>
+</html>

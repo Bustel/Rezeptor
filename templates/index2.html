@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        a, a:hover, a:visited, a:active {
+            text-decoration: none;
+            color:inherit;
+         }
+         .card {
+             /* Add shadows to create the "card" effect */
+             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+             transition: 0.3s;
+             margin-left: 10px;
+             margin-top: 10px;
+        }
+
+        /* On mouse-over, add a deeper shadow */
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<script src="/static/mainView2.js"></script>
+
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Rezeptor</a>
+</nav>
+
+<div  ng-controller="mainViewController as c" ng-init="c.get_recipes()">
+    <div class="d-flex flex-wrap justify-content-stretch">
+        <div class="p-2 card" style="width: 18rem; cursor: pointer;" ng-repeat="recipe in c.recipes">
+            <a class="navbar-link" href="/recipe/{{ '{{recipe.id}}' }}">
+                <img class="card-img-top" alt="Picture of {{ '{{recipe.name}}' }}" ng-src="{{ '{{recipe.image}}' }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ '{{recipe.name}}' }}</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
